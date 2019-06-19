@@ -1,0 +1,11 @@
+<html>
+   <body>
+      <form action = "http://localhost:5000/search" method = "post">
+         <p>Twitter Search Engine</p>
+         <p><input type = "text" name = "key" /></p>
+         <p><input type = "submit" value = "Search!" /></p>
+      </form>
+      
+      {% block content %}{% endblock %}
+   </body>
+</html>
