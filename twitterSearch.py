@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template
-import twitter
+import twitter, redisCache
 import json
 
 app = Flask(__name__)
@@ -16,18 +16,27 @@ def home():
 def search():
    req_data = request.get_json()
    search_parameter = req_data['search_parameter'] 
-   result = twitter.fetchTweets(consumer_key, consumer_secret, search_parameter)
-   
-   tweet_data = result.json()
 
-   resultDict = {}
-   for tweet in tweet_data['statuses']:
-      print(tweet['text'])
-      resultDict[ tweet['user']['name']] = tweet['text']
+   result = redisCache.getCachedResults(search_parameter)
+   if not result:
+      result = twitter.fetchTweets(consumer_key, consumer_secret, search_parameter)
+      tweet_data = result.json()
+
+      resultDict = {}
+      for tweet in tweet_data['statuses']:
+         resultDict[ tweet['user']['name']] = tweet['text']
+      print(resultDict)
+      redisCache.cacheResults(search_parameter, resultDict)
+
+      return json.dumps(resultDict)
+   else:
+      return json.dumps(result)
+
+   '''
+   
       
-   
    return json.dumps(resultDict)
-   
+   '''
 
 if __name__ == '__main__':
    app.run(debug = True)
