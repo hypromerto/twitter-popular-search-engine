@@ -47,7 +47,4 @@ base_url = 'https://api.twitter.com/'
 
 
 
-'''
-for tweet in tweet_data['statuses']:
-    print(tweet['text'] + '\n')
-'''
+

@@ -3,8 +3,10 @@ import twitter
 import json
 
 app = Flask(__name__)
-consumer_key = "vZc6pCoCwPV7yhq5m29nhvtQ6"
-consumer_secret = "igqixBkamWDVTsJlIwmt2S8Y2P0O1X0NeXKy4aroimT7Wr4NhC"
+
+#Dummy account credentials
+consumer_key = "HcsgBfYNZSnlNfgsbUnNHAGsi" 
+consumer_secret = "22HO1U79YNChhmNz8Fbz6wUgQp5AiDCdhwodwehwSOJOXhWiu7"
 
 @app.route('/')
 def home():
@@ -20,8 +22,10 @@ def search():
 
    resultDict = {}
    for tweet in tweet_data['statuses']:
+      print(tweet['text'])
       resultDict[ tweet['user']['name']] = tweet['text']
-
+      
+   
    return json.dumps(resultDict)
    
 
