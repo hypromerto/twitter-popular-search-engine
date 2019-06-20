@@ -10,13 +10,17 @@ try:
 except Exception as e:
     print(e)
 
-def cacheResults( search_parameter, results ):
-    r.hmset(search_parameter, results)
-    r.expire(search_parameter, 5)
+def cacheResults( search_parameter, texts, hashDict ):
+    if texts:
+        r.lpush(search_parameter, *texts)
+        r.expire(search_parameter, 5)
+    if hashDict:
+        r.hmset(search_parameter + "Hashtag", hashDict)
+        r.expire(search_parameter + "Hashtag", 5)
 
 def getCachedResults(search_parameter):
 
     if( r.hlen(search_parameter)):
-        return r.hgetall(search_parameter)
+        return r.lrange(search_parameter, 0, -1), r.hgetall(search_parameter + "Hashtag")
     else:
-        return False
+        return False, False
