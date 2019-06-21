@@ -2,11 +2,10 @@ import redis
 
 redis_host = "localhost"
 redis_port = "6379"
-redis_password = "galata25"
 
 
 try:
-    r = redis.StrictRedis(host=redis_host, port=redis_port, password=redis_password)
+    r = redis.StrictRedis(host=redis_host, port=redis_port)
 except Exception as e:
     print(e)
 
@@ -20,7 +19,8 @@ def cache_results( search_parameter, texts, hash_dict ):
 
 def get_cached_results(search_parameter):
 
-    if( r.hlen(search_parameter)):
+    if( r.llen(search_parameter)):
+    
         return r.lrange(search_parameter, 0, -1), r.hgetall(search_parameter + "Hashtag")
     else:
         return False, False

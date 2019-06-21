@@ -26,6 +26,7 @@ def search():
       return body 
    
    search_parameter = body["search_parameter"]
+   print("param:" + search_parameter)
 
    result_texts, result_hashtags = redis_cache.get_cached_results(search_parameter)
       
@@ -45,7 +46,7 @@ def search():
                   hash_dict[hashtag_text] = 1
                
       redis_cache.cache_results(search_parameter, texts, hash_dict)
-      #result_db.insert_to_table(search_parameter, texts)
+      result_db.insert_to_table(search_parameter, texts)
 
       return jsonify(texts)
 
