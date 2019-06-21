@@ -33,9 +33,9 @@ def fetchTweets(client_key, client_secret, search_parameter):
     search_params = {
 
         'q': search_parameter,
-        # 'result_type': 'popular',
-        # 'count': '100',
-        # "include_entities": True
+        'result_type': 'popular',
+        'count': '100',
+        "include_entities": True
     }
 
     search_url = '{}1.1/search/tweets.json'.format(base_url)

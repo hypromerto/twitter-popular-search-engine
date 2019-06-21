@@ -5,8 +5,8 @@ import json
 app = Flask(__name__)
 
 #Dummy account credentials
-consumer_key = "vZc6pCoCwPV7yhq5m29nhvtQ6" 
-consumer_secret = "igqixBkamWDVTsJlIwmt2S8Y2P0O1X0NeXKy4aroimT7Wr4NhC"
+consumer_key = "HcsgBfYNZSnlNfgsbUnNHAGsi" 
+consumer_secret = "22HO1U79YNChhmNz8Fbz6wUgQp5AiDCdhwodwehwSOJOXhWiu7"
 
 @app.route('/')
 def home():
@@ -37,13 +37,13 @@ def search():
       redisCache.cacheResults(search_parameter, texts, hashDict)
       resultDB.createTables(search_parameter, texts)
 
-      for key in hashDict:
-         print(key + " : " + str(hashDict[key]))
+      # for key in hashDict:
+      #    print(key + " : " + str(hashDict[key]))
       return json.dumps(texts)
 
    else:
-      for key in resultHashtags:
-        print(key + " : " + str(resultHashtags[key]))
+      # for key in resultHashtags:
+      #   print(key + " : " + str(resultHashtags[key]))
    return json.dumps(resultTexts)
 
 

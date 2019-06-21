@@ -33,11 +33,11 @@ def createTables(search_parameter, texts):
         cursor.execute("INSERT INTO " + search_parameter + " (tweet) VALUES (%s)", (item,))
 
     db.commit()
-    cursor.execute("SELECT * FROM " + search_parameter)
+    # cursor.execute("SELECT * FROM " + search_parameter)
 
-    for x in cursor:
-        print("ID: " + str(x[0]) )
-        print("Text: " + x[1])
+    # for x in cursor:
+    #     print("ID: " + str(x[0]) )
+    #     print("Text: " + x[1])
 
 
 
