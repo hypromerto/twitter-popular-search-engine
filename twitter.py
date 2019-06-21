@@ -1,5 +1,7 @@
 import requests, base64
 
+base_url = 'https://api.twitter.com/'
+
 def authorization(client_key, client_secret):
 
     key_secret = '{}:{}'.format(client_key, client_secret).encode('ascii')
@@ -22,7 +24,7 @@ def authorization(client_key, client_secret):
 
     return access_token
 
-def fetchTweets(client_key, client_secret, search_parameter):
+def fetch_tweets(client_key, client_secret, search_parameter):
 
     access_token = authorization(client_key, client_secret)
     search_headers = { 
@@ -43,9 +45,6 @@ def fetchTweets(client_key, client_secret, search_parameter):
     search_resp = requests.get(search_url, headers = search_headers, params = search_params)
 
     return search_resp
-
-base_url = 'https://api.twitter.com/'
-
 
 
 

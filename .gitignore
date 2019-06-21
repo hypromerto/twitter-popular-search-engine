@@ -1,5 +1,5 @@
 /__pycache__/
 /.vscode/
-redisCache.pyc
-resultDB.pyc
+redis_cache.pyc
+result_db.pyc
 twitter.pyc
