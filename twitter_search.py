@@ -26,15 +26,31 @@ def search():
       return body 
    
    search_parameter = body["search_parameter"]
-   print("param:" + search_parameter)
 
+   '''
+   First check cache for the keyword.
+   '''
    result_texts, result_hashtags = redis_cache.get_cached_results(search_parameter)
-      
    if not result_texts:
+
+      '''
+      If the keyword is not found in cache, check database.
+      '''
+      db_list = result_db.load_from_table(search_parameter) 
+      if db_list is not None:
+         return json.dumps(db_list[0])
+
+      '''
+      If the keyword is not on both cache and database, get it from Twitter.
+      '''   
+
       tweet_data = twitter.fetch_tweets(consumer_key, consumer_secret, search_parameter).json()
       texts = []
       hash_dict = {}
 
+      '''
+      Extracting all of the resulting tweets.
+      '''
       for tweet in tweet_data['statuses']:
          texts.append(tweet['text'])
          if tweet['entities']['hashtags']:
@@ -44,7 +60,6 @@ def search():
                   hash_dict[hashtag_text] += 1
                else:
                   hash_dict[hashtag_text] = 1
-               
       redis_cache.cache_results(search_parameter, texts, hash_dict)
       result_db.insert_to_table(search_parameter, texts)
 
