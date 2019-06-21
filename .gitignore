@@ -3,3 +3,4 @@
 redis_cache.pyc
 result_db.pyc
 twitter.pyc
+validator.pyc
