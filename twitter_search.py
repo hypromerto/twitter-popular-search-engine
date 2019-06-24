@@ -1,26 +1,29 @@
 from flask import Flask, request, render_template, jsonify, Response
+from flask_cors import CORS
 import twitter, redis_cache, result_db, validator, json
 
 app = Flask(__name__)
+CORS(app)
 
 # Dummy account credentials
 consumer_key = "HcsgBfYNZSnlNfgsbUnNHAGsi" 
 consumer_secret = "22HO1U79YNChhmNz8Fbz6wUgQp5AiDCdhwodwehwSOJOXhWiu7"
 
 
-@app.route('/')
-def home():
-    return render_template('landing.html')
 
 @app.route('/search', methods = ['POST'])
 def search():
+   input = {
+      "search_parameter": request.form["key"]
+   }
+   print(input["search_parameter"])
    '''
    Validate the input, respond 400 BAD REQUEST if the input is not validated.
    If it is, continue.
    '''
    body = validator.validate({
       "search_parameter": validator.field("search_key",required=True,minlength= 1, maxlength=100)
-   }, request.get_json())
+   }, input)
 
    if isinstance(body, Response): # 400 BAD REQUEST
       return body 
@@ -38,7 +41,7 @@ def search():
       '''
       db_list = result_db.load_from_table(search_parameter) 
       if db_list is not None:
-         return json.dumps(db_list[0])
+         return jsonify(db_list[0])
 
       '''
       If the keyword is not on both cache and database, get it from Twitter.
@@ -63,8 +66,10 @@ def search():
       redis_cache.cache_results(search_parameter, texts, hash_dict)
       result_db.insert_to_table(search_parameter, texts)
 
-      return jsonify(texts)
 
+
+      return jsonify(texts)
+      
    return jsonify(result_texts)
 
 
