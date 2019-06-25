@@ -9,7 +9,7 @@ python twitter_search.py
 ```
 To run the front-end, just type
 ```
-cd project/front-end
+cd project/front_end
 npm install
 npm start
 ```
