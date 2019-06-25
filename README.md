@@ -12,3 +12,8 @@ To run the front-end, just type
 cd project/front-end
 npm start
 ```
+
+To use the application just launch a web browser and go to
+```
+http://localhost:3000
+```
