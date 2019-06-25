@@ -11,3 +11,4 @@ To run the front-end, just type
 ```
 cd project/front-end
 npm start
+```
