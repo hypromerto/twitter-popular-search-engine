@@ -11,11 +11,11 @@ except Exception as e:
 
 def cache_results( search_parameter, texts, hash_dict ):
     if texts:
-        r.lpush(search_parameter, *texts)
-        r.expire(search_parameter, 5)
+        r.rpush(search_parameter, *texts)
+        r.expire(search_parameter, 10)
     if hash_dict:
         r.hmset(search_parameter + "Hashtag", hash_dict)
-        r.expire(search_parameter + "Hashtag", 5)
+        r.expire(search_parameter + "Hashtag", 10)
 
 def get_cached_results(search_parameter):
 

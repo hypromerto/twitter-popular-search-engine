@@ -36,7 +36,7 @@ def fetch_tweets(client_key, client_secret, search_parameter):
 
         'q': search_parameter,
         'result_type': 'popular',
-        'count': '100',
+        'count': 100,
         "include_entities": True
     }
 

@@ -3,21 +3,23 @@ from flask_cors import CORS
 import twitter, redis_cache, result_db, validator, json
 
 app = Flask(__name__)
-CORS(app)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
+
 
 # Dummy account credentials
 consumer_key = "HcsgBfYNZSnlNfgsbUnNHAGsi" 
 consumer_secret = "22HO1U79YNChhmNz8Fbz6wUgQp5AiDCdhwodwehwSOJOXhWiu7"
 
 
-
 @app.route('/search', methods = ['POST'])
 def search():
+
    input = {
-      "search_parameter": request.form["key"]
+      "search_parameter": request.get_json(force = True)["search_parameter"]
    }
    print(input["search_parameter"])
-   '''
+   ''' 
    Validate the input, respond 400 BAD REQUEST if the input is not validated.
    If it is, continue.
    '''
@@ -41,7 +43,18 @@ def search():
       '''
       db_list = result_db.load_from_table(search_parameter) 
       if db_list is not None:
-         return jsonify(db_list[0])
+         if ( db_list[0] is None):
+            result = {
+               "texts": [],
+               "hastags": {}
+            }
+            return jsonify("[]")
+         result = {
+            "texts": db_list[0],
+            "hashtags": {}
+         }
+         print("returned from db")
+         return jsonify(result)
 
       '''
       If the keyword is not on both cache and database, get it from Twitter.
@@ -67,10 +80,30 @@ def search():
       result_db.insert_to_table(search_parameter, texts)
 
 
+      if ( texts ):
+         result ={
+            "texts": texts,
+            "hashtags": hash_dict
+         }
+         print("returned from twitter")
+         return jsonify(result)
+      result = {
+         "texts": [],
+         "hashtags": {}
+      }
+      print("returned from twitter no result")
 
-      return jsonify(texts)
-      
-   return jsonify(result_texts)
+      return jsonify(result)
+
+   
+   
+   result = {
+      "texts": result_texts,
+      "hashtags": result_hashtags
+   }
+   print("returned from cache")
+
+   return jsonify(result)
 
 
 
