@@ -1,5 +1,7 @@
 /__pycache__/
 /.vscode/
+/front_end/node_modules/
+package-lock.json
 redis_cache.pyc
 result_db.pyc
 twitter.pyc
