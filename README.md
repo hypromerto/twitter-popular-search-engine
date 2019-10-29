@@ -1,5 +1,5 @@
 # Twitter Popular Keyword Search Engine
-A web app that fetches the most popular tweets from Twitter that include the keyword that user enters.
+A fullstack web app that fetches the most popular tweets from Twitter that include the keyword that user enters.
 
 # Installation
 To run the back-end, just type
