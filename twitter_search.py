@@ -18,7 +18,6 @@ def search():
    input = {
       "search_parameter": request.get_json(force = True)["search_parameter"]
    }
-   print(input["search_parameter"])
    ''' 
    Validate the input, respond 400 BAD REQUEST if the input is not validated.
    If it is, continue.
@@ -53,7 +52,6 @@ def search():
             "texts": db_list[0],
             "hashtags": {}
          }
-         print("returned from db")
          return jsonify(result)
 
       '''
@@ -85,13 +83,11 @@ def search():
             "texts": texts,
             "hashtags": hash_dict
          }
-         print("returned from twitter")
          return jsonify(result)
       result = {
          "texts": [],
          "hashtags": {}
       }
-      print("returned from twitter no result")
 
       return jsonify(result)
 
@@ -101,7 +97,6 @@ def search():
       "texts": result_texts,
       "hashtags": result_hashtags
    }
-   print("returned from cache")
 
    return jsonify(result)
 
